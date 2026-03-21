@@ -22,6 +22,7 @@ log = logging.getLogger(__name__)
 async def run_design_agent(job: Job) -> None:
     update_job_status(job, "running")
     try:
+        os.makedirs(job.output_dir, exist_ok=True)
         input_pdb_path = save_input_pdb_if_provided(job)
         await invoke_claude_agent(job, input_pdb_path)
         update_job_status(job, "completed")

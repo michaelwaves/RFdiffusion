@@ -59,7 +59,8 @@ pymol -cq -d "load <pdb_path>; bg_color white; set ray_opaque_background, 1; car
 
 ## Rules
 
-- Always set `inference.output_prefix` to the provided output directory
+- The output directory has been pre-created for you — it is writable. NEVER fall back to /tmp or any other directory.
+- For iteration N, use `inference.output_prefix=<output_dir>/vN/design`
 - Default to `inference.num_designs=1` to keep iterations fast
 - Do not exceed the max iteration count
 - Save renders as `render.png` in each version directory

@@ -1,0 +1,4 @@
+- inference.output_prefix=/tmp/62acb5be0856/v0/design
+- inference.num_designs=1
+- contigmap.contigs=[560-560]
+- inference.symmetry=C8

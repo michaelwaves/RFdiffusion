@@ -1,0 +1,7 @@
+[2026-03-21 22:00:34,628][__main__][INFO] - Found GPU with device_name NVIDIA L40S. Will run RFdiffusion on NVIDIA L40S
+[2026-03-21 22:00:34,628][rfdiffusion.inference.model_runners][INFO] - Reading checkpoint from /workspace/RFdiffusion/rfdiffusion/inference/../../models/Base_ckpt.pt
+[2026-03-21 22:00:59,618][rfdiffusion.inference.model_runners][INFO] - Loading checkpoint.
+[2026-03-21 22:00:59,753][rfdiffusion.diffusion][INFO] - Using cached IGSO3.
+[2026-03-21 22:00:59,762][rfdiffusion.inference.symmetry][INFO] - Initializing cyclic symmetry order 8.
+[2026-03-21 22:00:59,777][__main__][INFO] - Making design /tmp/62acb5be0856/v0/design_0
+[2026-03-21 22:00:59,780][rfdiffusion.inference.model_runners][INFO] - Using contig: ['70-70']

@@ -9,7 +9,7 @@ from api.jobs import get_job, list_jobs, save_job
 from api.models import GenerateRequest, Job
 from api.runner import run_design_agent
 
-OUTPUTS_ROOT = "/outputs/users"
+OUTPUTS_ROOT = "/workspace/RFdiffusion/outputs/users"
 
 app = FastAPI(title="RFdiffusion Chat API")
 
