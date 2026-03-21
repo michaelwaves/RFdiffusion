@@ -81,7 +81,7 @@ class Job(BaseModel):
 - Background task function that:
   1. Builds a system prompt with RFdiffusion context (config schema, example commands, contig syntax)
   2. Passes the user's natural language prompt
-  3. Gives Claude tools: `Bash`, `Read`, `Edit` (scoped to output dir) Wait it needs bash access in all directories?
+  3. Gives Claude tools: `Bash`, `Read`, `Edit` — **unscoped** (needs repo-wide access: scripts/, config/, examples/input_pdbs/, output dirs, PyMOL CLI)
   4. Claude translates prompt → `run_inference.py` command with correct args
   5. Streams agent messages, updates job status
 
@@ -115,16 +115,20 @@ After each RFdiffusion run:
 | Decision | Current Choice | Rationale |
 |----------|---------------|-----------|
 | Job store | In-memory dict | Good enough for v0; swap for SQLite/Redis later |
-| PDB rendering | PyMOL CLI or py3Dmol | Need headless rendering for VLM loop — TBD what's available |
-| Agent scoping | Bash + Read tools | Claude needs shell access to run `run_inference.py` via hydra |
+| PDB rendering | PyMOL CLI (headless) | Confirmed available; `pymol -c` for scripted PNG rendering |
+| Agent scoping | Bash + Read + Edit (unscoped) | Needs repo-wide access: scripts, configs, input PDBs, PyMOL |
+| GPU | 1x L40 | Single job at a time; use asyncio.Queue to serialize |
 | Output structure | `/outputs/users/{uid}/{cid}/{jid}/v{n}/` | Supports time-travel, per-user isolation |
 | Num designs per iteration | 1 | Keep feedback loop fast; user can request more |
 
-### Open questions
-1. **PDB rendering** — what's installed for headless rendering? PyMOL? Need to check.
-2. **Auth** — for now user_id is trusted from request body; real auth comes from BetterAuth in frontend later.
-3. **Concurrency** — how many GPU jobs can run simultaneously? Probably 1 at a time → need a proper queue (even just asyncio.Queue for v0).
-4. **Model weights** — are all checkpoint files available? (base, ActiveSite_ckpt, etc.)
+### Resolved
+- **PDB rendering** → PyMOL CLI headless (`pymol -c`)
+- **GPU** → 1x L40, single job queue via asyncio.Queue
+- **Model weights** → assumed all downloaded already
+- **Scope** → hackathon POC, keep it simple
+
+### Remaining open questions
+1. **Auth** — for now user_id is trusted from request body; real auth comes from BetterAuth in frontend later.
 
 ---
 

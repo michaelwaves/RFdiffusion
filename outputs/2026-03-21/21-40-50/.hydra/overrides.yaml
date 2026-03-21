@@ -1,0 +1,3 @@
+- contigmap.contigs=[100-150]
+- inference.output_prefix=/workspace/outputs/users/anonymous/default/f450a7b11395/v0/design
+- inference.num_designs=1
