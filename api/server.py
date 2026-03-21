@@ -2,12 +2,13 @@ import logging
 import os
 import uuid
 
-from fastapi import BackgroundTasks, FastAPI, HTTPException
+from fastapi import BackgroundTasks, FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(name)s %(message)s")
 
+from api.chats import list_chats, load_transcript, save_transcript
 from api.jobs import discover_existing_jobs, get_job, list_jobs, save_job
 from api.logs import get_logs
 from api.models import GenerateRequest, Job
@@ -51,6 +52,23 @@ def get_job_by_id(job_id: str):
     if not job:
         raise HTTPException(status_code=404, detail="Job not found")
     return job
+
+
+@app.get("/chats")
+def get_chats():
+    return list_chats()
+
+
+@app.get("/chats/{chat_id}")
+def get_chat(chat_id: str):
+    return load_transcript(chat_id)
+
+
+@app.post("/chats/{chat_id}")
+async def save_chat(chat_id: str, request: Request):
+    messages = await request.json()
+    save_transcript(chat_id, messages)
+    return {"status": "ok"}
 
 
 @app.get("/jobs/{job_id}/logs")

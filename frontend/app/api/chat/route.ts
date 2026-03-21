@@ -28,14 +28,19 @@ Explain protein design concepts clearly. Be concise.`,
             .string()
             .describe("The protein design request in natural language"),
           chat_id: z.string().optional().describe("Chat ID for grouping"),
+          max_iterations: z
+            .number()
+            .optional()
+            .describe("Max design iterations (1 for single shot, default 3)"),
         }),
-        execute: async ({ prompt, chat_id }) => {
+        execute: async ({ prompt, chat_id, max_iterations }) => {
           const response = await fetch(`${BACKEND_URL}/generate`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
               prompt,
               chat_id: chat_id || "default",
+              max_iterations: max_iterations ?? 3,
             }),
           });
           const job = await response.json();

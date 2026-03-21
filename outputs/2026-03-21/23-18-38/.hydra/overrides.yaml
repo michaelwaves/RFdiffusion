@@ -1,0 +1,5 @@
+- contigmap.contigs=[120-120]
+- inference.input_pdb=/workspace/RFdiffusion/outputs/users/anonymous/default/2e6d3667a1c7/v0/design_0.pdb
+- inference.output_prefix=/workspace/RFdiffusion/outputs/users/anonymous/default/2e6d3667a1c7/v2/design
+- inference.num_designs=1
+- diffuser.partial_T=10

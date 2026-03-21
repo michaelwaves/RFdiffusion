@@ -1,6 +1,6 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { ChatPanel } from "@/components/chat-panel";
 import { ProteinViewer } from "@/components/protein-viewer";
 import { IterationSlider } from "@/components/iteration-slider";
@@ -15,6 +15,24 @@ export default function ChatPage({
   const [jobId, setJobId] = useState<string | null>(null);
   const [iteration, setIteration] = useState(0);
   const [maxIteration, setMaxIteration] = useState(0);
+
+  useEffect(() => {
+    fetch(`http://localhost:8000/jobs/${id}`)
+      .then((res) => {
+        if (!res.ok) return null;
+        return res.json();
+      })
+      .then((job) => {
+        if (!job) return;
+        setJobId(job.job_id);
+        const iters = job.current_iteration || 0;
+        if (iters > 0) {
+          setMaxIteration(iters - 1);
+          setIteration(iters - 1);
+        }
+      })
+      .catch(() => {});
+  }, [id]);
 
   return (
     <div className="flex h-full w-full">

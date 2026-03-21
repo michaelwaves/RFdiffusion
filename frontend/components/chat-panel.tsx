@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useCallback } from "react";
+import { useRef, useEffect, useCallback, useState } from "react";
 import { useChat } from "@ai-sdk/react";
 import { DefaultChatTransport } from "ai";
 import { MessageBubble } from "@/components/message-bubble";
@@ -15,6 +15,7 @@ export function ChatPanel({ chatId, onJobCreated, onJobCompleted }: ChatPanelPro
   const scrollRef = useRef<HTMLDivElement>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const trackedJobsRef = useRef<Set<string>>(new Set());
+  const [maxIterations, setMaxIterations] = useState(3);
 
   const { messages, sendMessage, status } = useChat({
     id: chatId,
@@ -60,7 +61,10 @@ export function ChatPanel({ chatId, onJobCreated, onJobCompleted }: ChatPanelPro
   function handleSubmit() {
     const textarea = textareaRef.current;
     if (!textarea || !textarea.value.trim()) return;
-    sendMessage({ text: textarea.value });
+    const iterNote = maxIterations === 1
+      ? " (single shot, 1 iteration)"
+      : ` (${maxIterations} iterations max)`;
+    sendMessage({ text: textarea.value + iterNote });
     textarea.value = "";
     textarea.style.height = "auto";
   }
@@ -114,7 +118,24 @@ export function ChatPanel({ chatId, onJobCreated, onJobCompleted }: ChatPanelPro
               rows={3}
               className="w-full resize-none bg-transparent px-4 pt-4 pb-2 text-[15px] text-slate-800 placeholder:text-slate-400 focus:outline-none disabled:opacity-50"
             />
-            <div className="flex items-center justify-end px-3 pb-3">
+            <div className="flex items-center justify-between px-3 pb-3">
+              <div className="flex items-center gap-1">
+                {[1, 2, 3, 5].map((n) => (
+                  <button
+                    key={n}
+                    type="button"
+                    onClick={() => setMaxIterations(n)}
+                    className={`h-7 min-w-[28px] rounded-lg px-2 text-xs font-medium transition-colors ${
+                      maxIterations === n
+                        ? "bg-slate-800 text-white"
+                        : "text-slate-400 hover:text-slate-600 hover:bg-slate-100"
+                    }`}
+                  >
+                    {n === 1 ? "1x" : `${n}x`}
+                  </button>
+                ))}
+                <span className="ml-1 text-[11px] text-slate-400">iterations</span>
+              </div>
               <button
                 onClick={handleSubmit}
                 disabled={isStreaming}
