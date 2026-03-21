@@ -2,6 +2,10 @@
 
 import type { UIMessage } from "ai";
 
+function stripMetadata(text: string): string {
+  return text.replace(/\n?\[iterations: \d+\]$/, "");
+}
+
 interface MessageBubbleProps {
   message: UIMessage;
 }
@@ -14,7 +18,9 @@ export function MessageBubble({ message }: MessageBubbleProps) {
       <div className="flex justify-end">
         <div className="max-w-[85%] rounded-3xl bg-slate-100 px-5 py-3 text-[15px] leading-relaxed text-slate-800">
           {message.parts?.map((part, i) =>
-            part.type === "text" ? <span key={i}>{part.text}</span> : null
+            part.type === "text"
+              ? <span key={i}>{stripMetadata(part.text)}</span>
+              : null
           )}
         </div>
       </div>

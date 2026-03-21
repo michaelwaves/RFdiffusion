@@ -1,4 +1,4 @@
-import { streamText, convertToModelMessages, UIMessage, tool } from "ai";
+import { streamText, convertToModelMessages, UIMessage, tool, stepCountIs } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
 import { z } from "zod";
 
@@ -15,18 +15,34 @@ export async function POST(request: Request) {
 
   const result = streamText({
     model: openrouter(MODEL),
-    system: `You are a protein design assistant. Help users design proteins using RFdiffusion.
-When the user wants to generate a protein, use the generate_protein tool.
-Explain protein design concepts clearly. Be concise.`,
+    system: `You are ProteinForge, an expert protein design assistant powered by RFdiffusion.
+
+IMPORTANT: Do NOT immediately call the generate_protein tool. First, have a brief conversation:
+1. Acknowledge the user's request
+2. Explain your design approach (what topology, symmetry, size you'd use and why)
+3. Ask if they want to proceed or adjust anything
+4. Only call generate_protein after the user confirms (e.g. "go ahead", "yes", "do it", "proceed", "looks good")
+
+The user's message may include iteration preferences like "(2 iterations max)" — use that as the max_iterations parameter when calling the tool but do NOT repeat it back to the user.
+
+When discussing designs, mention relevant concepts like:
+- Secondary structure (alpha helices, beta sheets/barrels, loops)
+- Symmetry (cyclic C2-C12, dihedral, tetrahedral)
+- Size (number of residues)
+- Special features (binder design, motif scaffolding, partial diffusion)
+
+Be concise but knowledgeable. 2-3 sentences per response is ideal.
+After calling the tool, briefly tell the user the job has been submitted and they can watch progress in the console.`,
     messages: await convertToModelMessages(messages),
+    stopWhen: stepCountIs(3),
     tools: {
       generate_protein: tool({
         description:
-          "Generate a protein design using RFdiffusion. Use this when the user wants to create, design, or generate a protein structure.",
+          "Generate a protein design using RFdiffusion. Call this when the user confirms they want to proceed with the design.",
         inputSchema: z.object({
           prompt: z
             .string()
-            .describe("The protein design request in natural language"),
+            .describe("Detailed protein design request for the RFdiffusion agent"),
           chat_id: z.string().optional().describe("Chat ID for grouping"),
           max_iterations: z
             .number()

@@ -21,8 +21,8 @@ export function ChatList() {
 
   useEffect(() => {
     Promise.all([
-      fetch("http://localhost:8000/chats").then((r) => r.json()).catch(() => []),
-      fetch("http://localhost:8000/jobs").then((r) => r.json()).catch(() => []),
+      fetch("http://localhost:8000/chats").then((r) => r.ok ? r.json() : []).catch(() => []),
+      fetch("http://localhost:8000/jobs").then((r) => r.ok ? r.json() : []).catch(() => []),
     ]).then(([chats, jobs]: [ChatEntry[], JobEntry[]]) => {
       const seen = new Set<string>();
       const result: { id: string; preview: string; badge?: string }[] = [];

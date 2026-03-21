@@ -130,10 +130,10 @@ function ChatPanelInner({
   function handleSubmit() {
     const textarea = textareaRef.current;
     if (!textarea || !textarea.value.trim()) return;
-    const iterNote = maxIterations === 1
-      ? " (single shot, 1 iteration)"
-      : ` (${maxIterations} iterations max)`;
-    sendMessage({ text: textarea.value + iterNote });
+    const text = maxIterations !== 3
+      ? `${textarea.value}\n[iterations: ${maxIterations}]`
+      : textarea.value;
+    sendMessage({ text });
     textarea.value = "";
     textarea.style.height = "auto";
   }
