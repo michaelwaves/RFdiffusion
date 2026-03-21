@@ -1,0 +1,7 @@
+[2026-03-21 20:23:18,584][__main__][INFO] - Found GPU with device_name NVIDIA L40S. Will run RFdiffusion on NVIDIA L40S
+[2026-03-21 20:23:18,585][rfdiffusion.inference.model_runners][INFO] - Reading checkpoint from /workspace/RFdiffusion/models/Base_ckpt.pt
+[2026-03-21 20:23:26,155][rfdiffusion.inference.model_runners][INFO] - Loading checkpoint.
+[2026-03-21 20:23:26,270][rfdiffusion.diffusion][INFO] - Using cached IGSO3.
+[2026-03-21 20:23:26,286][__main__][INFO] - Making design /workspace/RFdiffusion/workspace/outputs/uv_test_0
+[2026-03-21 20:23:26,291][rfdiffusion.inference.model_runners][INFO] - Using contig: ['100-100']
+[2026-03-21 20:23:26,329][rfdiffusion.inference.model_runners][INFO] - Sequence init: ----------------------------------------------------------------------------------------------------

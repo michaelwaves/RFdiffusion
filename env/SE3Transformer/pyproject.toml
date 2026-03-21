@@ -1,0 +1,10 @@
+[project]
+name = "se3-transformer"
+version = "1.0.0"
+description = "PyTorch + DGL implementation of SE(3)-Transformers"
+requires-python = ">=3.11"
+dependencies = []
+
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"

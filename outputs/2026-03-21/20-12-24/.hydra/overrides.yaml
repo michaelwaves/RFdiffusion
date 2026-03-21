@@ -1,0 +1,4 @@
+- inference.output_prefix=/workspace/RFdiffusion/workspace/outputs/test
+- inference.model_directory_path=/workspace/RFdiffusion/models
+- inference.num_designs=1
+- contigmap.contigs=[100-100]

@@ -33,7 +33,7 @@ python3 scripts/run_inference.py \
   inference.output_prefix=/workspace/RFdiffusion/workspace/outputs/test \
   inference.model_directory_path=/home/claude/RFdiffusion/models \
   inference.num_designs=1 \
-  'contigmap.contigs=[100-100]'
+    
 ```
 
 Output: `outputs/test_0.pdb`

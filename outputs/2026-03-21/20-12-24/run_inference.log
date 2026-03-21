@@ -1,0 +1,6 @@
+[2026-03-21 20:12:24,944][__main__][INFO] - Found GPU with device_name NVIDIA L40S. Will run RFdiffusion on NVIDIA L40S
+[2026-03-21 20:12:24,945][rfdiffusion.inference.model_runners][INFO] - Reading checkpoint from /workspace/RFdiffusion/models/Base_ckpt.pt
+[2026-03-21 20:13:00,020][rfdiffusion.inference.model_runners][INFO] - Loading checkpoint.
+[2026-03-21 20:13:00,154][rfdiffusion.diffusion][INFO] - Calculating IGSO3.
+[2026-03-21 20:14:42,749][__main__][INFO] - Making design /workspace/RFdiffusion/workspace/outputs/test_0
+[2026-03-21 20:14:42,751][__main__][INFO] - (cautious mode) Skipping this design because /workspace/RFdiffusion/workspace/outputs/test_0.pdb already exists.
